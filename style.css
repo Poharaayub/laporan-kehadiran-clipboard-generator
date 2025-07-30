@@ -1,0 +1,309 @@
+/* =========================================================
+   APLIKASI MULTI MENU — STYLES (Dark, Responsive, Clean)
+   ========================================================= */
+
+/* ---------- Variabel Tema ---------- */
+:root {
+  /* Warna dasar */
+  --bg: #0b0b0b;            /* latar utama */
+  --text: #f3f4f6;          /* teks utama */
+  --muted: #9ca3af;         /* teks sekunder */
+  --accent: #38bdf8;        /* aksen (aktif) */
+
+  /* Permukaan */
+  --surface: #161616;
+  --surface-hover: #1e1e1e;
+
+  /* Bottom bar */
+  --bar-bg: #0f0f10;
+  --bar-bg-alpha: rgba(15, 15, 16, 0.92); /* fallback semi-transparan */
+  --bar-border: #202124;
+
+  /* Efek & radius */
+  --shadow: 0 1px 3px rgba(0,0,0,.5), 0 1px 2px rgba(0,0,0,.35);
+  --ripple: rgba(255,255,255,0.15);
+  --radius: 14px;
+  --danger: #ef4444;
+
+  /* Dimensi */
+  --bar-height: 64px;
+  --page-hpad: 16px; /* padding horizontal halaman */
+}
+
+/* ---------- Reset Ringkas ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---------- Konten Utama ---------- */
+.app-content {
+  min-height: 100%;
+  padding: var(--page-hpad);
+  /* beri ruang agar tidak tertutup bottom bar */
+  padding-bottom: calc(var(--bar-height) + env(safe-area-inset-bottom, 0px) + var(--page-hpad));
+}
+
+/* (Opsional) Batasi lebar agar rapi di layar besar jika HTML memiliki .container */
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* ---------- Judul Halaman ---------- */
+.tab-pane h1,
+.page-title {
+  margin: 4px 0 14px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: .2px;
+}
+
+/* ---------- Grid Tombol ----------
+   Default: 3 kolom
+   ≤900px : 2 kolom
+   ≤420px : 1 kolom
+----------------------------------- */
+.grid-btns {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 900px) {
+  .grid-btns { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 420px) {
+  .grid-btns { grid-template-columns: 1fr; }
+}
+
+/* ---------- Tombol / Kartu ---------- */
+.app-button {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 14px 10px;
+  min-height: 106px;                     /* tinggi seragam */
+  border: 1px solid #232326;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  text-align: center;
+  text-decoration: none;                 /* agar <a> tampil seperti tombol */
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform .06s ease,
+    background .18s ease,
+    border-color .18s ease,
+    box-shadow .18s ease;
+}
+.app-button:hover { background: var(--surface-hover); }
+.app-button:active { transform: scale(.985); }
+.app-button i, .app-button svg { width: 24px; height: 24px; }
+.app-button span { font-size: 13px; line-height: 1.2; }
+
+/* ---------- Tab Dasar + Transisi ---------- */
+.tab-pane {
+  display: none;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity .18s ease, transform .18s ease;
+}
+.tab-pane.is-active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   BOTTOM BAR — Rapi, Konsisten, Aman Safe-Area
+   ========================================================= */
+.bottom-bar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+
+  /* tinggi bar + ruang aman (iOS/Android) */
+  height: calc(var(--bar-height) + env(safe-area-inset-bottom, 0px));
+  padding: 6px 8px calc(6px + env(safe-area-inset-bottom, 0px));
+
+  /* efek mengambang modern + fallback */
+  background: var(--bar-bg-alpha);
+  border-top: 1px solid var(--bar-border);
+  backdrop-filter: saturate(140%) blur(8px);
+  -webkit-backdrop-filter: saturate(140%) blur(8px);
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  align-items: center;
+
+  box-shadow: 0 -8px 24px rgba(0,0,0,.35);
+  z-index: 100;
+}
+
+/* Jika browser mendukung color-mix, pakai yang lebih halus */
+@supports (color: color-mix(in srgb, black, white)) {
+  .bottom-bar {
+    background: color-mix(in srgb, var(--bar-bg) 92%, transparent);
+  }
+}
+
+/* Item bottom bar */
+.bar-item {
+  appearance: none;
+  border: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  height: 52px;
+  padding: 6px 4px;
+  border-radius: 12px;
+
+  font: inherit;
+  color: var(--muted);
+  background: transparent;
+  position: relative;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  white-space: nowrap;
+
+  transition:
+    background .18s ease,
+    color .18s ease,
+    transform .06s ease;
+}
+
+.bar-item:active { transform: scale(.985); }
+.bar-item:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent) 50%, white 10%);
+  outline-offset: 2px;
+  border-radius: 14px;
+}
+
+.bar-item i, .bar-item svg { width: 22px; height: 22px; flex: 0 0 auto; }
+.bar-item span {
+  margin-top: 4px;
+  font-size: 11.5px;
+  line-height: 1;
+  letter-spacing: .2px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Status aktif: warna + “pill” + indikator garis */
+.bar-item.is-active {
+  color: var(--text);
+  background: linear-gradient(180deg, rgba(56,189,248,.14), rgba(56,189,248,.07));
+  outline: 1px solid rgba(56,189,248,.22);
+}
+
+.bar-item::after {
+  content: '';
+  position: absolute;
+  left: 10px; right: 10px;
+  bottom: calc(4px + env(safe-area-inset-bottom, 0px));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  opacity: .95;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform .20s ease;
+}
+.bar-item.is-active::after { transform: scaleX(1); }
+
+/* Ripple fallback (CSS) — untuk :active; ripple utama bisa via JS */
+.bar-item { overflow: hidden; }
+.bar-item .ripple {
+  position: absolute; inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  transform: scale(0);
+  opacity: 0;
+  background: var(--ripple);
+}
+.bar-item:active .ripple { animation: ripple .35s ease-out; }
+
+@keyframes ripple {
+  from { transform: scale(0); opacity: .35; }
+  to   { transform: scale(1); opacity: 0; }
+}
+
+/* Mode sangat sempit: sembunyikan label agar tidak berhimpitan */
+@media (max-width: 380px) {
+  .bar-item { height: 48px; padding: 6px; }
+  .bar-item span { display: none; }
+}
+
+/* Pastikan safe-area modern */
+@supports (padding: max(0px)) {
+  .bottom-bar {
+    padding-bottom: max(6px, env(safe-area-inset-bottom, 0px));
+    height: calc(var(--bar-height) + max(0px, env(safe-area-inset-bottom, 0px)));
+  }
+}
+
+/* =========================================================
+   EMBED (Jadwal) + Loader
+   ========================================================= */
+
+/* Gunakan dvh agar stabil di mobile (address bar dinamis) */
+.embed {
+  width: 100%;
+  height: calc(100dvh - var(--bar-height) - 160px); /* header + padding + bottom bar */
+  max-height: 85dvh;
+  border: 0;
+  background: #111;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+
+/* Loader sederhana */
+.loader {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--bar-border);
+  border-radius: 12px;
+  padding: 18px;
+  margin: 0 0 10px;
+}
+.loader .spinner {
+  width: 26px; height: 26px;
+  border: 3px solid rgba(255,255,255,.25);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+.loader .loader-text { color: var(--muted); font-size: 12px; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Hint text */
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+/* =========================================================
+   Preferensi Aksesibilitas: Kurangi Animasi
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .tab-pane { transition: none; }
+  .bar-item:active .ripple { animation: none; }
+}
