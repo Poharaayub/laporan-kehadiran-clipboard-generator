@@ -1,268 +1,181 @@
-<!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>Untitled</title>
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!doctype html>
-<html lang="id">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aplikasi Multi Menu</title>
-  <link rel="stylesheet" href="styles.css" />
-  <script defer src="https://unpkg.com/lucide@latest"></script>
-  <script defer src="script.js"></script>
-</head>
-<body>
-  <main class="app-content">
-    <div class="container">
-      <!-- ===================== BERANDA ===================== -->
-      <section id="tab-beranda" class="tab-pane is-active" aria-labelledby="title-beranda">
-        <h1 id="title-beranda" class="page-title">Beranda</h1>
-        <div class="grid-btns">
-          <!-- Informasi Terbaru -->
-          <a class="app-button" id="beranda-info"
-             href="https://docs.google.com/document/d/1rmVbRxSudLXjAU_U_K871s52cgZj-u8_B-XpGWKTVdA/edit?usp=drive_link"
-             target="_blank" rel="noopener">
-            <i data-lucide="info"></i>
-            <span>Informasi Terbaru</span>
-          </a>
-
-          <!-- All Members -->
-          <button class="app-button" id="beranda-members" type="button">
-            <i data-lucide="users"></i>
-            <span>All Members</span>
-          </button>
-
-          <!-- Hubungi pak Ayub -->
-          <a class="app-button" id="beranda-ayub"
-             href="https://wa.me/6289637126728"
-             target="_blank" rel="noopener">
-            <i data-lucide="phone"></i>
-            <span>Hubungi pak Ayub</span>
-          </a>
-
-          <!-- Hubungi pak Sadulloh -->
-          <a class="app-button" id="beranda-sadulloh"
-             href="https://wa.me/6285281587927"
-             target="_blank" rel="noopener">
-            <i data-lucide="phone"></i>
-            <span>Hubungi pak Sadulloh</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ===================== JADWAL (EMBED GOOGLE SHEET) ===================== -->
-      <section id="tab-jadwal" class="tab-pane" aria-labelledby="title-jadwal">
-        <h1 id="title-jadwal" class="page-title">Job Desk</h1>
-
-        <div id="jadwal-loader" class="loader">
-          <div class="spinner"></div>
-          <div class="loader-text">Memuat jadwal…</div>
-        </div>
-
-        <iframe
-          id="jadwal-iframe"
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQBJaRSwf1ki6YLILhX1jfc8lntgZYa2WtnM8vFmskFgEhQo4L89xWIBt4f12wVO8egkAyO-rdO4hRr/pubhtml?widget=true&headers=false"
-          class="embed"
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-          allowfullscreen
-          title="Jadwal Tim (Google Sheets)"
-        ></iframe>
-
-        <p class="hint">
-          Jika tabel belum tampil, pastikan Spreadsheet sudah <em>Publish to the web</em>.
-          • <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vQBJaRSwf1ki6YLILhX1jfc8lntgZYa2WtnM8vFmskFgEhQo4L89xWIBt4f12wVO8egkAyO-rdO4hRr/pub?output=pdf"
-               target="_blank" rel="noopener">Buka/unduh versi PDF</a>
-        </p>
-      </section>
-
-      <!-- ===================== LAPORAN ===================== -->
-      <section id="tab-laporan" class="tab-pane" aria-labelledby="title-laporan">
-        <h1 id="title-laporan" class="page-title">Laporan</h1>
-        <div class="grid-btns">
-          <a class="app-button" id="lap-upload-otomatis"
-             href="https://poharaayub.github.io/ocsnfiuploadcam/"
-             target="_blank" rel="noopener">
-            <i data-lucide="upload-cloud"></i>
-            <span>Upload Foto Otomatis</span>
-          </a>
-
-          <a class="app-button" id="lap-wa-ocs-nfi"
-             href="https://chat.whatsapp.com/KnxTC4uGQdGI6WAAVh0UGg?mode=ac_t"
-             target="_blank" rel="noopener">
-            <i data-lucide="send"></i>
-            <span>Upload ke Grup Whatsapp OCS NFI</span>
-          </a>
-
-          <a class="app-button" id="lap-upload-ayub"
-             href="https://wa.me/6289637126728"
-             target="_blank" rel="noopener">
-            <i data-lucide="user"></i>
-            <span>Upload ke pak Ayub</span>
-          </a>
-
-          <a class="app-button" id="lap-upload-sadulloh"
-             href="https://wa.me/6285281587927"
-             target="_blank" rel="noopener">
-            <i data-lucide="user"></i>
-            <span>Upload ke pak Sadulloh</span>
-          </a>
-
-          <a class="app-button" id="lap-cuci-box"
-             href="https://docs.google.com/spreadsheets/d/1lRBJ97KsNf0aDqUaJWTYrVLdUyqLPf6Vclg5lE-GE4c/edit?usp=drivesdk"
-             target="_blank" rel="noopener">
-            <i data-lucide="clipboard-list"></i>
-            <span>Laporan Pencucian Box</span>
-          </a>
-
-          <a class="app-button" id="lap-cuci-pallet"
-             href="https://docs.google.com/spreadsheets/d/1H723dS1_qyLRRxctsvDHo57HBkkWNu2OJGC6UripZw4/edit?usp=drivesdk"
-             target="_blank" rel="noopener">
-            <i data-lucide="clipboard-list"></i>
-            <span>Laporan Pencucian Pallet</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ===================== ABSENSI ===================== -->
-      <section id="tab-absensi" class="tab-pane" aria-labelledby="title-absensi">
-        <h1 id="title-absensi" class="page-title">Absensi</h1>
-        <div class="grid-btns">
-          <a class="app-button" id="abs-greatday"
-             href="https://app.greatdayhr.com/features/home/home-web"
-             target="_blank" rel="noopener">
-            <i data-lucide="smartphone"></i>
-            <span>Greatday Apps</span>
-          </a>
-
-          <a class="app-button" id="abs-rekap"
-             href="https://drive.google.com/drive/folders/1ioHzqREUtxdTDu-nmUXKObklFTTem4JN"
-             target="_blank" rel="noopener">
-            <i data-lucide="clipboard-list"></i>
-            <span>Cek Data Rekapitulasi Absensi</span>
-          </a>
-
-          <a class="app-button" id="abs-izin-ayub"
-             href="https://wa.me/6289637126728?text=Halo%20pak%20Ayub%2C%20Saya%20ingin%20mengajukan%20izin%20absensi"
-             target="_blank" rel="noopener">
-            <i data-lucide="user"></i>
-            <span>Ajukan Izin ke pak Ayub</span>
-          </a>
-
-          <a class="app-button" id="abs-izin-sadulloh"
-             href="https://wa.me/6285281587927?text=Halo%20pak%20Sadulloh%2C%20Saya%20ingin%20mengajukan%20izin%20absensi"
-             target="_blank" rel="noopener">
-            <i data-lucide="user"></i>
-            <span>Ajukan Izin ke pak Sadulloh</span>
-          </a>
-
-          <a class="app-button" id="abs-shift"
-             href="https://wa.me/6285281587927?text=Halo%20pak%2C%20Ayub%20saya%20ingin%20mengajukan%20tukar%20shift%20absensi"
-             target="_blank" rel="noopener">
-            <i data-lucide="refresh-cw"></i>
-            <span>Ajukan Tukar Shift</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ===================== LAINNYA ===================== -->
-      <section id="tab-lainnya" class="tab-pane" aria-labelledby="title-lainnya">
-        <h1 id="title-lainnya" class="page-title">Lainnya</h1>
-        <div class="grid-btns">
-          <a class="app-button" id="lain-data-peralatan"
-             href="https://docs.google.com/spreadsheets/d/1A7Q9uFPA7kmCzE8prd3IyG2cknLsGISm-RcW7G_4gD8/edit?usp=drivesdk"
-             target="_blank" rel="noopener">
-            <i data-lucide="package"></i>
-            <span>Data Peralatan & Alat Bantu Kerja</span>
-          </a>
-
-          <a class="app-button" id="lain-uang-kas"
-             href="https://docs.google.com/spreadsheets/d/1gOX1bHVao0o1DroJS2Ri-VPSKAzUHwyOVSy8bBgXZOI/edit?usp=drivesdk"
-             target="_blank" rel="noopener">
-            <i data-lucide="wallet"></i>
-            <span>Program Uang Kas 2025</span>
-          </a>
-
-          <a class="app-button" id="lain-ocs-global"
-             href="https://www.google.com/url?sa=t&source=web&rct=j&opi=89978449&url=https://www.instagram.com/ocsindonesia/&ved=2ahUKEwiHmfz06eSOAxXZ3jgGHav1HIgQjjh6BAgJEAE&usg=AOvVaw3OGRoFZbGLumiCyEoLJicI"
-             target="_blank" rel="noopener">
-            <i data-lucide="building-2"></i>
-            <span>OCS GLOBAL SERVICES INDONESIA</span>
-          </a>
-        </div>
-      </section>
-
-      <!-- ===================== ALL MEMBERS ===================== -->
-      <section id="tab-members" class="tab-pane" aria-labelledby="title-members">
-        <h1 id="title-members" class="page-title">All Members</h1>
-        <div class="grid-btns">
-          <a class="app-button" href="https://wa.me/6289637126728" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Pohara Ayub</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6285281587927" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Sadulloh</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6285883524329" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Edi Ahmad Jubaedi</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6281389327308" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Saiful Bahri</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6283819602330" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Wahidin</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6281947172711" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Ade Surahman</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6283879624040" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Amrullah</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6285771090915" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Siti Maemunah</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6285716230391" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Sulaiman</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6281286448626" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>Muhammad Toni</span>
-          </a>
-          <a class="app-button" href="https://wa.me/6285810611074" target="_blank" rel="noopener">
-            <i data-lucide="phone"></i><span>M. Rifai</span>
-          </a>
-        </div>
-      </section>
-    </div>
-  </main>
-
-  <!-- Bottom Bar -->
-  <nav class="bottom-bar" role="navigation" aria-label="Menu bawah">
-    <button class="bar-item is-active" data-target="tab-beranda" aria-label="Beranda">
-      <i data-lucide="home"></i><span>Beranda</span><span class="ripple"></span>
-    </button>
-    <button class="bar-item" data-target="tab-jadwal" aria-label="Jadwal">
-      <i data-lucide="calendar"></i><span>Job Desk</span><span class="ripple"></span>
-    </button>
-    <button class="bar-item" data-target="tab-laporan" aria-label="Laporan">
-      <i data-lucide="file-text"></i><span>Laporan</span><span class="ripple"></span>
-    </button>
-    <button class="bar-item" data-target="tab-absensi" aria-label="Absensi">
-      <i data-lucide="clipboard-check"></i><span>Absensi</span><span class="ripple"></span>
-    </button>
-    <button class="bar-item" data-target="tab-lainnya" aria-label="Lainnya">
-      <i data-lucide="more-horizontal"></i><span>Lainnya</span><span class="ripple"></span>
-    </button>
-  </nav>
-</body>
-</html>
-<!-- partial -->
-  <script  src="./script.js"></script>
-
-</body>
+<!DOCTYPE html>  
+<html lang="id">  
+<head>  
+  <meta charset="UTF-8">  
+  <title>Laporan Kehadiran - OCS NFI</title>  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
+  <style>  
+    body {  
+      font-family: 'Segoe UI', sans-serif;  
+      padding: 20px;  
+      background: #f9f9f9;  
+      max-width: 600px;  
+      margin: auto;  
+    }  
+  
+    h2 {  
+      text-align: center;  
+      margin-bottom: 1rem;  
+    }  
+  
+    label {  
+      display: block;  
+      margin-top: 15px;  
+      font-weight: bold;  
+    }  
+  
+    select, input, textarea {  
+      width: 100%;  
+      padding: 10px;  
+      margin-top: 5px;  
+      border: 1px solid #ccc;  
+      border-radius: 8px;  
+    }  
+  
+    textarea {  
+      height: 150px;  
+    }  
+  
+    button {  
+      margin-top: 20px;  
+      padding: 12px;  
+      background: #6200ee;  
+      color: white;  
+      border: none;  
+      width: 100%;  
+      border-radius: 8px;  
+      font-size: 16px;  
+      cursor: pointer;  
+    }  
+  
+    button:hover {  
+      background: #3700b3;  
+    }  
+  </style>  
+</head>  
+<body>  
+  
+  <h2>📋 Laporan Kehadiran OCS NFI</h2>  
+  
+  <label for="salam">Salam</label>  
+  <select id="salam">  
+    <option>Selamat pagi</option>  
+    <option>Selamat siang</option>  
+    <option>Selamat malam</option>  
+  </select>  
+  
+  <label for="tanggal">Tanggal</label>  
+  <input type="date" id="tanggal" />  
+  
+  <label for="shift">Shift</label>  
+  <select id="shift">  
+    <option>Shift pagi</option>  
+    <option>Shift siang</option>  
+    <option>Shift malam</option>  
+  </select>  
+  
+  <label for="hadir">Karyawan Hadir</label>  
+  <select id="hadir" multiple></select>  
+  
+  <label for="izin">Karyawan Izin</label>  
+  <select id="izin" multiple></select>  
+  
+  <label for="sakit">Karyawan Sakit</label>  
+  <select id="sakit" multiple></select>  
+  
+  <label for="alpa">Karyawan Alpa</label>  
+  <select id="alpa" multiple></select>  
+  
+  <label for="hasil">Hasil</label>  
+  <textarea id="hasil" readonly></textarea>  
+  
+  <button onclick="generate()">🔗 Salin ke Clipboard</button>  
+  
+  <script>  
+    const karyawan = [  
+      { nama: "Pohara Ayub", area: "Team Leader" },  
+      { nama: "Sadulloh", area: "Team Leader" },  
+      { nama: "Saiful Bahri", area: "Office Lantai 1" },  
+      { nama: "Siti Maemunah", area: "Office Lantai 2" },  
+      { nama: "Sulaiman", area: "Office Jakarta" },  
+      { nama: "Wahidin", area: "Gardener" },  
+      { nama: "Edi Ahmad Jubaedi", area: "Produksi" },  
+      { nama: "Ade Surahman", area: "Produksi" },  
+      { nama: "Muhammad Toni", area: "Produksi" },  
+      { nama: "M. Rifai", area: "Produksi" },  
+      { nama: "Amrullah", area: "Warehouse 2 & 1" },  
+      { nama: "Amrullah", area: "Warehouse 1" }  
+    ];  
+    
+    const selectIds = ["hadir", "izin", "sakit", "alpa"];  
+    
+    function populateSelects() {  
+      selectIds.forEach(id => {  
+        const select = document.getElementById(id);  
+        karyawan.forEach(k => {  
+          const opt = document.createElement("option");  
+          opt.value = `${k.nama} (${k.area})`;  
+          opt.textContent = `${k.nama} (${k.area})`;  
+          select.appendChild(opt);  
+        });  
+      });  
+    }  
+    
+    function formatTanggal(dateStr) {  
+      const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];  
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];  
+      const d = new Date(dateStr);  
+      return hari[d.getDay()] + ", " + d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();  
+    }  
+    
+    function getSelectedValues(selectId) {  
+      return Array.from(document.getElementById(selectId).selectedOptions).map(o => o.value);  
+    }  
+    
+    function generate() {  
+      const salam = document.getElementById("salam").value;  
+      const tanggalInput = document.getElementById("tanggal").value;  
+      if (!tanggalInput) {  
+        alert("Pilih tanggal terlebih dahulu.");  
+        return;  
+      }  
+      const tanggalFormatted = formatTanggal(tanggalInput);  
+      const shift = document.getElementById("shift").value;  
+    
+      const hadir = getSelectedValues("hadir");  
+      const izin = getSelectedValues("izin");  
+      const sakit = getSelectedValues("sakit");  
+      const alpa = getSelectedValues("alpa");  
+    
+      const jumlahHadir = hadir.length;  
+    
+      const hasil = `👋 ${salam}  
+  
+📝 Update kehadiran Member OCS NFI  
+📅 ${tanggalFormatted}  
+🕒 ${shift}  
+  
+✅ Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}  
+🟡 Izin: ${izin.join(", ") || "-"}  
+🔴 Sakit: ${sakit.join(", ") || "-"}  
+⚫ Alpa: ${alpa.join(", ") || "-"}  
+  
+🙏 Demikian terima kasih`;  
+    
+      document.getElementById("hasil").value = hasil;  
+    
+      navigator.clipboard.writeText(hasil).then(() => {  
+        alert("✅ Teks berhasil disalin ke clipboard!");  
+      });  
+    }  
+    
+    // Set tanggal hari ini otomatis  
+    document.addEventListener("DOMContentLoaded", () => {  
+      const today = new Date().toISOString().split('T')[0];  
+      document.getElementById("tanggal").value = today;  
+      populateSelects();  
+    });  
+  </script>  
+  
+</body>  
 </html>
