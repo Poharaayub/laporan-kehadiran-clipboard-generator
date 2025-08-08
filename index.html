@@ -1,181 +1,180 @@
-<!DOCTYPE html>  
-<html lang="id">  
-<head>  
-  <meta charset="UTF-8">  
-  <title>Laporan Kehadiran - OCS NFI</title>  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>  
-  <style>  
-    body {  
-      font-family: 'Segoe UI', sans-serif;  
-      padding: 20px;  
-      background: #f9f9f9;  
-      max-width: 600px;  
-      margin: auto;  
-    }  
-  
-    h2 {  
-      text-align: center;  
-      margin-bottom: 1rem;  
-    }  
-  
-    label {  
-      display: block;  
-      margin-top: 15px;  
-      font-weight: bold;  
-    }  
-  
-    select, input, textarea {  
-      width: 100%;  
-      padding: 10px;  
-      margin-top: 5px;  
-      border: 1px solid #ccc;  
-      border-radius: 8px;  
-    }  
-  
-    textarea {  
-      height: 150px;  
-    }  
-  
-    button {  
-      margin-top: 20px;  
-      padding: 12px;  
-      background: #6200ee;  
-      color: white;  
-      border: none;  
-      width: 100%;  
-      border-radius: 8px;  
-      font-size: 16px;  
-      cursor: pointer;  
-    }  
-  
-    button:hover {  
-      background: #3700b3;  
-    }  
-  </style>  
-</head>  
-<body>  
-  
-  <h2>📋 Laporan Kehadiran OCS NFI</h2>  
-  
-  <label for="salam">Salam</label>  
-  <select id="salam">  
-    <option>Selamat pagi</option>  
-    <option>Selamat siang</option>  
-    <option>Selamat malam</option>  
-  </select>  
-  
-  <label for="tanggal">Tanggal</label>  
-  <input type="date" id="tanggal" />  
-  
-  <label for="shift">Shift</label>  
-  <select id="shift">  
-    <option>Shift pagi</option>  
-    <option>Shift siang</option>  
-    <option>Shift malam</option>  
-  </select>  
-  
-  <label for="hadir">Karyawan Hadir</label>  
-  <select id="hadir" multiple></select>  
-  
-  <label for="izin">Karyawan Izin</label>  
-  <select id="izin" multiple></select>  
-  
-  <label for="sakit">Karyawan Sakit</label>  
-  <select id="sakit" multiple></select>  
-  
-  <label for="alpa">Karyawan Alpa</label>  
-  <select id="alpa" multiple></select>  
-  
-  <label for="hasil">Hasil</label>  
-  <textarea id="hasil" readonly></textarea>  
-  
-  <button onclick="generate()">🔗 Salin ke Clipboard</button>  
-  
-  <script>  
-    const karyawan = [  
-      { nama: "Pohara Ayub", area: "Team Leader" },  
-      { nama: "Sadulloh", area: "Team Leader" },  
-      { nama: "Saiful Bahri", area: "Office Lantai 1" },  
-      { nama: "Siti Maemunah", area: "Office Lantai 2" },  
-      { nama: "Sulaiman", area: "Office Jakarta" },  
-      { nama: "Wahidin", area: "Gardener" },  
-      { nama: "Edi Ahmad Jubaedi", area: "Produksi" },  
-      { nama: "Ade Surahman", area: "Produksi" },  
-      { nama: "Muhammad Toni", area: "Produksi" },  
-      { nama: "M. Rifai", area: "Produksi" },  
-      { nama: "Amrullah", area: "Warehouse 2 & 1" },  
-      { nama: "Amrullah", area: "Warehouse 1" }  
-    ];  
-    
-    const selectIds = ["hadir", "izin", "sakit", "alpa"];  
-    
-    function populateSelects() {  
-      selectIds.forEach(id => {  
-        const select = document.getElementById(id);  
-        karyawan.forEach(k => {  
-          const opt = document.createElement("option");  
-          opt.value = `${k.nama} (${k.area})`;  
-          opt.textContent = `${k.nama} (${k.area})`;  
-          select.appendChild(opt);  
-        });  
-      });  
-    }  
-    
-    function formatTanggal(dateStr) {  
-      const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];  
-      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];  
-      const d = new Date(dateStr);  
-      return hari[d.getDay()] + ", " + d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();  
-    }  
-    
-    function getSelectedValues(selectId) {  
-      return Array.from(document.getElementById(selectId).selectedOptions).map(o => o.value);  
-    }  
-    
-    function generate() {  
-      const salam = document.getElementById("salam").value;  
-      const tanggalInput = document.getElementById("tanggal").value;  
-      if (!tanggalInput) {  
-        alert("Pilih tanggal terlebih dahulu.");  
-        return;  
-      }  
-      const tanggalFormatted = formatTanggal(tanggalInput);  
-      const shift = document.getElementById("shift").value;  
-    
-      const hadir = getSelectedValues("hadir");  
-      const izin = getSelectedValues("izin");  
-      const sakit = getSelectedValues("sakit");  
-      const alpa = getSelectedValues("alpa");  
-    
-      const jumlahHadir = hadir.length;  
-    
-      const hasil = `👋 ${salam}  
-  
-📝 Update kehadiran Member OCS NFI  
-📅 ${tanggalFormatted}  
-🕒 ${shift}  
-  
-✅ Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}  
-🟡 Izin: ${izin.join(", ") || "-"}  
-🔴 Sakit: ${sakit.join(", ") || "-"}  
-⚫ Alpa: ${alpa.join(", ") || "-"}  
-  
-🙏 Demikian terima kasih`;  
-    
-      document.getElementById("hasil").value = hasil;  
-    
-      navigator.clipboard.writeText(hasil).then(() => {  
-        alert("✅ Teks berhasil disalin ke clipboard!");  
-      });  
-    }  
-    
-    // Set tanggal hari ini otomatis  
-    document.addEventListener("DOMContentLoaded", () => {  
-      const today = new Date().toISOString().split('T')[0];  
-      document.getElementById("tanggal").value = today;  
-      populateSelects();  
-    });  
-  </script>  
-  
-</body>  
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Laporan Kehadiran - OCS NFI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+      background: #f9f9f9;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    select, input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px;
+      background: #6200ee;
+      color: white;
+      border: none;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #3700b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Laporan Kehadiran OCS NFI</h2>
+
+  <label for="salam">Salam</label>
+  <select id="salam">
+    <option>Selamat pagi</option>
+    <option>Selamat siang</option>
+    <option>Selamat malam</option>
+  </select>
+
+  <label for="tanggal">Tanggal</label>
+  <input type="date" id="tanggal" />
+
+  <label for="shift">Shift</label>
+  <select id="shift">
+    <option>Shift pagi</option>
+    <option>Shift siang</option>
+    <option>Shift malam</option>
+  </select>
+
+  <label for="hadir">Karyawan Hadir</label>
+  <select id="hadir" multiple></select>
+
+  <label for="izin">Karyawan Izin</label>
+  <select id="izin" multiple></select>
+
+  <label for="sakit">Karyawan Sakit</label>
+  <select id="sakit" multiple></select>
+
+  <label for="alpa">Karyawan Alpa</label>
+  <select id="alpa" multiple></select>
+
+  <label for="hasil">Hasil</label>
+  <textarea id="hasil" readonly></textarea>
+
+  <button onclick="generate()">Salin ke Clipboard</button>
+
+  <script>
+    const karyawan = [
+      { nama: "Pohara Ayub", area: "Team Leader" },
+      { nama: "Sadulloh", area: "Team Leader" },
+      { nama: "Saiful Bahri", area: "Office Lantai 1" },
+      { nama: "Siti Maemunah", area: "Office Lantai 2" },
+      { nama: "Sulaiman", area: "Office Jakarta" },
+      { nama: "Wahidin", area: "Gardener" },
+      { nama: "Edi Ahmad Jubaedi", area: "Produksi" },
+      { nama: "Ade Surahman", area: "Produksi" },
+      { nama: "Muhammad Toni", area: "Produksi" },
+      { nama: "M. Rifai", area: "Produksi" },
+      { nama: "Amrullah", area: "Warehouse 2 & 1" },
+      { nama: "Amrullah", area: "Warehouse 1" }
+    ];
+
+    const selectIds = ["hadir", "izin", "sakit", "alpa"];
+
+    function populateSelects() {
+      selectIds.forEach(id => {
+        const select = document.getElementById(id);
+        karyawan.forEach(k => {
+          const opt = document.createElement("option");
+          opt.value = `${k.nama} (${k.area})`;
+          opt.textContent = `${k.nama} (${k.area})`;
+          select.appendChild(opt);
+        });
+      });
+    }
+
+    function formatTanggal(dateStr) {
+      const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+      const d = new Date(dateStr);
+      return hari[d.getDay()] + ", " + d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
+    }
+
+    function getSelectedValues(selectId) {
+      return Array.from(document.getElementById(selectId).selectedOptions).map(o => o.value);
+    }
+
+    function generate() {
+      const salam = document.getElementById("salam").value;
+      const tanggalInput = document.getElementById("tanggal").value;
+      if (!tanggalInput) {
+        alert("Pilih tanggal terlebih dahulu.");
+        return;
+      }
+      const tanggalFormatted = formatTanggal(tanggalInput);
+      const shift = document.getElementById("shift").value;
+
+      const hadir = getSelectedValues("hadir");
+      const izin = getSelectedValues("izin");
+      const sakit = getSelectedValues("sakit");
+      const alpa = getSelectedValues("alpa");
+
+      const jumlahHadir = hadir.length;
+
+      const hasil = `${salam}
+
+Laporan Kehadiran Member OCS NFI
+Hari Tanggal: ${tanggalFormatted}
+Shift: ${shift}
+
+Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}
+Izin: ${izin.join(", ") || "-"}
+Sakit: ${sakit.join(", ") || "-"}
+Alpa: ${alpa.join(", ") || "-"}
+
+Demikian Terimakasih.`;
+
+      document.getElementById("hasil").value = hasil;
+
+      navigator.clipboard.writeText(hasil).then(() => {
+        alert("Teks berhasil disalin ke clipboard!");
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById("tanggal").value = today;
+      populateSelects();
+    });
+  </script>
+
+</body>
 </html>
