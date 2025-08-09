@@ -69,9 +69,9 @@
 
   <label for="shift">Shift</label>
   <select id="shift">
-    <option>Shift pagi</option>
-    <option>Shift siang</option>
-    <option>Shift malam</option>
+    <option>Shift pagi (07.00–15.00)</option>
+    <option>Shift siang (13.00–18.00)</option>
+    <option>Shift malam (22.00–06.00)</option>
   </select>
 
   <label for="hadir">Karyawan Hadir</label>
@@ -85,6 +85,10 @@
 
   <label for="alpa">Karyawan Alpa</label>
   <select id="alpa" multiple></select>
+
+  <!-- Input teks opsional -->
+  <label for="catatan">Catatan (Opsional)</label>
+  <input type="text" id="catatan" placeholder="Isi jika ada catatan tambahan..." />
 
   <label for="hasil">Hasil</label>
   <textarea id="hasil" readonly></textarea>
@@ -147,9 +151,11 @@
       const sakit = getSelectedValues("sakit");
       const alpa = getSelectedValues("alpa");
 
+      const catatan = document.getElementById("catatan").value.trim();
+
       const jumlahHadir = hadir.length;
 
-      const hasil = `${salam}
+      let hasil = `${salam}
 
 Laporan Kehadiran Member OCS NFI
 Hari Tanggal: ${tanggalFormatted}
@@ -158,7 +164,15 @@ Shift: ${shift}
 Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}
 Izin: ${izin.join(", ") || "-"}
 Sakit: ${sakit.join(", ") || "-"}
-Alpa: ${alpa.join(", ") || "-"}
+Alpa: ${alpa.join(", ") || "-"}`;
+
+      if (catatan) {
+        hasil += `
+
+Catatan: ${catatan}`;
+      }
+
+      hasil += `
 
 Demikian Terimakasih.`;
 
