@@ -157,24 +157,24 @@
 
       let hasil = `${salam}
 
-Laporan Kehadiran Member OCS NFI
-Hari Tanggal: ${tanggalFormatted}
-Shift: ${shift}
+📋 Laporan Kehadiran Member OCS NFI
+📅 Hari/Tanggal: ${tanggalFormatted}
+🕒 Shift: ${shift}
 
-Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}
-Izin: ${izin.join(", ") || "-"}
-Sakit: ${sakit.join(", ") || "-"}
-Alpa: ${alpa.join(", ") || "-"}`;
+✅ Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}
+📝 Izin: ${izin.join(", ") || "-"}
+🤒 Sakit: ${sakit.join(", ") || "-"}
+❌ Alpa: ${alpa.join(", ") || "-"}`;
 
       if (catatan) {
         hasil += `
 
-Catatan: ${catatan}`;
+✍️ Catatan: ${catatan}`;
       }
 
       hasil += `
 
-Demikian Terimakasih.`;
+Demikian, Terima kasih 🙏`;
 
       document.getElementById("hasil").value = hasil;
 
