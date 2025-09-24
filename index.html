@@ -33,7 +33,8 @@
     }
 
     textarea {
-      height: 150px;
+      height: 200px;
+      white-space: pre-wrap; /* supaya line break muncul di textarea */
     }
 
     button {
@@ -108,7 +109,8 @@
       { nama: "Muhammad Toni", area: "Produksi" },
       { nama: "M. Rifai", area: "Produksi" },
       { nama: "Amrullah", area: "Warehouse 2 & 1" },
-      { nama: "Amrullah", area: "Warehouse 1" }
+      { nama: "Amrullah", area: "Warehouse 1" },
+      { nama: "Nabrih", area: "Member Pencucian Pallet" }
     ];
 
     const selectIds = ["hadir", "izin", "sakit", "alpa"];
@@ -136,6 +138,10 @@
       return Array.from(document.getElementById(selectId).selectedOptions).map(o => o.value);
     }
 
+    function formatList(arr) {
+      return arr.length > 0 ? "\n- " + arr.join("\n- ") : "-";
+    }
+
     function generate() {
       const salam = document.getElementById("salam").value;
       const tanggalInput = document.getElementById("tanggal").value;
@@ -161,10 +167,10 @@
 📅 Hari/Tanggal: ${tanggalFormatted}
 🕒 Shift: ${shift}
 
-✅ Hadir (${jumlahHadir}): ${hadir.join(", ") || "-"}
-📝 Izin: ${izin.join(", ") || "-"}
-🤒 Sakit: ${sakit.join(", ") || "-"}
-❌ Alpa: ${alpa.join(", ") || "-"}`;
+✅ Hadir (${jumlahHadir}):${formatList(hadir)}
+📝 Izin:${formatList(izin)}
+🤒 Sakit:${formatList(sakit)}
+❌ Alpa:${formatList(alpa)}`;
 
       if (catatan) {
         hasil += `
