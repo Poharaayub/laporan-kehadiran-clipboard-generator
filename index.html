@@ -1,200 +1,256 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Laporan Kehadiran - OCS NFI</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-      background: #f9f9f9;
-      max-width: 600px;
-      margin: auto;
-    }
+<meta charset="UTF-8">
+<title>Laporan Kehadiran - OCS NFI</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-    h2 {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f4f4f8;
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+  }
 
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
+  h2 {
+    text-align: center;
+    color: #333;
+  }
 
-    select, input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
+  label {
+    display: block;
+    margin-top: 20px;
+    font-weight: 600;
+  }
 
-    textarea {
-      height: 200px;
-      white-space: pre-wrap; /* supaya line break muncul di textarea */
-    }
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+  }
 
-    button {
-      margin-top: 20px;
-      padding: 12px;
-      background: #6200ee;
-      color: white;
-      border: none;
-      width: 100%;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
+  button {
+    padding: 12px;
+    width: 100%;
+    background: #5a00d6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 15px;
+    cursor: pointer;
+  }
 
-    button:hover {
-      background: #3700b3;
-    }
-  </style>
+  .btn-popup {
+    background: #0073ff;
+    margin-top: 10px;
+  }
+
+  textarea {
+    height: 200px;
+    resize: none;
+  }
+
+  /* ========================= */
+  /*         POPUP MODAL       */
+  /* ========================= */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-content {
+    width: 90%;
+    max-width: 450px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    max-height: 80%;
+    overflow-y: auto;
+  }
+
+  .modal-content h3 {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .karyawan-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .modal button {
+    margin-top: 15px;
+  }
+</style>
 </head>
 <body>
 
-  <h2>Laporan Kehadiran OCS NFI</h2>
+<h2>Laporan Kehadiran OCS NFI</h2>
 
-  <label for="salam">Salam</label>
-  <select id="salam">
-    <option>Selamat pagi</option>
-    <option>Selamat siang</option>
-    <option>Selamat malam</option>
-  </select>
+<label>Salam</label>
+<select id="salam">
+  <option>Selamat pagi</option>
+  <option>Selamat siang</option>
+  <option>Selamat malam</option>
+</select>
 
-  <label for="tanggal">Tanggal</label>
-  <input type="date" id="tanggal" />
+<label>Tanggal</label>
+<input type="date" id="tanggal">
 
-  <label for="shift">Shift</label>
-  <select id="shift">
-    <option>Shift pagi (07.00–15.00)</option>
-    <option>Shift siang (13.00–18.00)</option>
-    <option>Shift malam (22.00–06.00)</option>
-  </select>
+<label>Shift</label>
+<select id="shift">
+  <option>Shift pagi (07.00–15.00)</option>
+  <option>Shift siang (13.00–18.00)</option>
+  <option>Shift malam (22.00–06.00)</option>
+</select>
 
-  <label for="hadir">Karyawan Hadir</label>
-  <select id="hadir" multiple></select>
+<!-- ===================== -->
+<!--   BUTTON POPUP LIST   -->
+<!-- ===================== -->
 
-  <label for="izin">Karyawan Izin</label>
-  <select id="izin" multiple></select>
+<label>Karyawan Hadir</label>
+<button class="btn-popup" onclick="openPopup('hadir')">Pilih Karyawan Hadir</button>
 
-  <label for="sakit">Karyawan Sakit</label>
-  <select id="sakit" multiple></select>
+<label>Karyawan Izin</label>
+<button class="btn-popup" onclick="openPopup('izin')">Pilih Karyawan Izin</button>
 
-  <label for="alpa">Karyawan Alpa</label>
-  <select id="alpa" multiple></select>
+<label>Karyawan Sakit</label>
+<button class="btn-popup" onclick="openPopup('sakit')">Pilih Karyawan Sakit</button>
 
-  <!-- Input teks opsional -->
-  <label for="catatan">Catatan (Opsional)</label>
-  <input type="text" id="catatan" placeholder="Isi jika ada catatan tambahan..." />
+<label>Karyawan Alpa</label>
+<button class="btn-popup" onclick="openPopup('alpa')">Pilih Karyawan Alpa</button>
 
-  <label for="hasil">Hasil</label>
-  <textarea id="hasil" readonly></textarea>
+<label>Catatan (Opsional)</label>
+<input type="text" id="catatan" placeholder="Isi catatan tambahan...">
 
-  <button onclick="generate()">Salin ke Clipboard</button>
+<label>Hasil</label>
+<textarea id="hasil" readonly></textarea>
 
-  <script>
-    const karyawan = [
-      { nama: "Pohara Ayub", area: "Team Leader" },
-      { nama: "Sadulloh", area: "Team Leader" },
-      { nama: "Saiful Bahri", area: "Office Lantai 1" },
-      { nama: "Siti Maemunah", area: "Office Lantai 2" },
-      { nama: "Sulaiman", area: "Office Jakarta" },
-      { nama: "Wahidin", area: "Gardener" },
-      { nama: "Edi Ahmad Jubaedi", area: "Produksi" },
-      { nama: "Ade Surahman", area: "Produksi" },
-      { nama: "Muhammad Toni", area: "Produksi" },
-      { nama: "M. Rifai", area: "Produksi" },
-      { nama: "Amrullah", area: "Warehouse 2 & 1" },
-      { nama: "Amrullah", area: "Warehouse 1" },
-      { nama: "Nabrih", area: "Member Pencucian Pallet" }
-    ];
+<button onclick="generate()">Salin ke Clipboard</button>
 
-    const selectIds = ["hadir", "izin", "sakit", "alpa"];
+<!-- ===================== -->
+<!--       POPUP MODAL     -->
+<!-- ===================== -->
 
-    function populateSelects() {
-      selectIds.forEach(id => {
-        const select = document.getElementById(id);
-        karyawan.forEach(k => {
-          const opt = document.createElement("option");
-          opt.value = `${k.nama} (${k.area})`;
-          opt.textContent = `${k.nama} (${k.area})`;
-          select.appendChild(opt);
-        });
-      });
-    }
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modal-title">Pilih Karyawan</h3>
+    <div id="modal-list"></div>
+    <button onclick="saveSelection()">Simpan</button>
+    <button style="background:#999" onclick="closePopup()">Batal</button>
+  </div>
+</div>
 
-    function formatTanggal(dateStr) {
-      const hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
-      const bulan = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-      const d = new Date(dateStr);
-      return hari[d.getDay()] + ", " + d.getDate() + " " + bulan[d.getMonth()] + " " + d.getFullYear();
-    }
+<script>
+const karyawan = [
+  { nama: "Pohara Ayub", area: "Team Leader" },
+  { nama: "Sadulloh", area: "Team Leader" },
+  { nama: "Saiful Bahri", area: "Office Lantai 1" },
+  { nama: "Siti Maemunah", area: "Office Lantai 2" },
+  { nama: "Sulaiman", area: "Office Jakarta" },
+  { nama: "Wahidin", area: "Gardener" },
+  { nama: "Edi Ahmad Jubaedi", area: "Produksi" },
+  { nama: "Ade Surahman", area: "Produksi" },
+  { nama: "Muhammad Toni", area: "Produksi" },
+  { nama: "M. Rifai", area: "Produksi" },
+  { nama: "Amrullah", area: "Warehouse 1 & 2" },
+  { nama: "Amrullah", area: "Warehouse 1" },
+  { nama: "Nabrih", area: "Member Pembersihan Pallet Warehouse Tepung" }
+];
 
-    function getSelectedValues(selectId) {
-      return Array.from(document.getElementById(selectId).selectedOptions).map(o => o.value);
-    }
+let activeCategory = "";
+const selections = { hadir: [], izin: [], sakit: [], alpa: [] };
 
-    function formatList(arr) {
-      return arr.length > 0 ? "\n- " + arr.join("\n- ") : "-";
-    }
+function openPopup(category) {
+  activeCategory = category;
+  document.getElementById("modal").style.display = "flex";
+  document.getElementById("modal-title").innerText = "Pilih Karyawan " + category.toUpperCase();
 
-    function generate() {
-      const salam = document.getElementById("salam").value;
-      const tanggalInput = document.getElementById("tanggal").value;
-      if (!tanggalInput) {
-        alert("Pilih tanggal terlebih dahulu.");
-        return;
-      }
-      const tanggalFormatted = formatTanggal(tanggalInput);
-      const shift = document.getElementById("shift").value;
+  const listDiv = document.getElementById("modal-list");
+  listDiv.innerHTML = "";
 
-      const hadir = getSelectedValues("hadir");
-      const izin = getSelectedValues("izin");
-      const sakit = getSelectedValues("sakit");
-      const alpa = getSelectedValues("alpa");
+  karyawan.forEach(k => {
+    const id = `${category}-${k.nama}`;
 
-      const catatan = document.getElementById("catatan").value.trim();
+    listDiv.innerHTML += `
+      <div class="karyawan-item">
+        <input type="checkbox" id="${id}" value="${k.nama} (${k.area})"
+        ${ selections[category].includes(`${k.nama} (${k.area})`) ? "checked" : "" }>
+        <label for="${id}">${k.nama} (${k.area})</label>
+      </div>
+    `;
+  });
+}
 
-      const jumlahHadir = hadir.length;
+function saveSelection() {
+  const checkboxes = document.querySelectorAll(`#modal-list input[type='checkbox']`);
 
-      let hasil = `${salam}
+  selections[activeCategory] = [];
+
+  checkboxes.forEach(cb => {
+    if (cb.checked) selections[activeCategory].push(cb.value);
+  });
+
+  closePopup();
+}
+
+function closePopup() {
+  document.getElementById("modal").style.display = "none";
+}
+
+function formatTanggal(dateStr) {
+  const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
+  const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+  const d = new Date(dateStr);
+  return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function formatList(arr) {
+  return arr.length ? "\n- " + arr.join("\n- ") : "-";
+}
+
+function generate() {
+  const salam = document.getElementById("salam").value;
+  const tanggal = document.getElementById("tanggal").value;
+  if (!tanggal) return alert("Pilih tanggal terlebih dahulu!");
+
+  const hasil = `
+${salam}
 
 📋 Laporan Kehadiran Member OCS NFI
-📅 Hari/Tanggal: ${tanggalFormatted}
-🕒 Shift: ${shift}
+📅 Hari/Tanggal: ${formatTanggal(tanggal)}
+🕒 Shift: ${document.getElementById("shift").value}
 
-✅ Hadir (${jumlahHadir}):${formatList(hadir)}
-📝 Izin:${formatList(izin)}
-🤒 Sakit:${formatList(sakit)}
-❌ Alpa:${formatList(alpa)}`;
+✅ Hadir (${selections.hadir.length}):${formatList(selections.hadir)}
+📝 Izin:${formatList(selections.izin)}
+🤒 Sakit:${formatList(selections.sakit)}
+❌ Alpa:${formatList(selections.alpa)}
 
-      if (catatan) {
-        hasil += `
-
-✍️ Catatan: ${catatan}`;
-      }
-
-      hasil += `
-
+${document.getElementById("catatan").value ? "✍️ Catatan: " + document.getElementById("catatan").value : ""}
+    
 Demikian, Terima kasih 🙏`;
 
-      document.getElementById("hasil").value = hasil;
+  document.getElementById("hasil").value = hasil;
+  navigator.clipboard.writeText(hasil);
+  alert("Berhasil disalin ke clipboard!");
+}
 
-      navigator.clipboard.writeText(hasil).then(() => {
-        alert("Teks berhasil disalin ke clipboard!");
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const today = new Date().toISOString().split('T')[0];
-      document.getElementById("tanggal").value = today;
-      populateSelects();
-    });
-  </script>
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("tanggal").value = today;
+});
+</script>
 
 </body>
 </html>
