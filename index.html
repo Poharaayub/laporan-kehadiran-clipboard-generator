@@ -6,48 +6,64 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
 <style>
+  /* ========================= */
+  /*       RESET & BODY        */
+  /* ========================= */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
   body {
     font-family: 'Segoe UI', sans-serif;
     background: #f4f4f8;
-    padding: 20px;
+    padding: 15px;
     max-width: 600px;
     margin: auto;
+    color: #333;
   }
 
   h2 {
     text-align: center;
-    color: #333;
+    margin-bottom: 20px;
+    color: #5a00d6;
   }
 
   label {
     display: block;
-    margin-top: 20px;
+    margin-top: 15px;
     font-weight: 600;
   }
 
-  input, select, textarea {
+  input, select, textarea, button {
     width: 100%;
     padding: 12px;
     border-radius: 10px;
     border: 1px solid #ccc;
-    box-sizing: border-box;
+    font-size: 16px;
+    margin-top: 5px;
   }
 
   button {
-    padding: 12px;
-    width: 100%;
     background: #5a00d6;
     color: white;
     border: none;
-    border-radius: 10px;
-    font-size: 16px;
-    margin-top: 15px;
     cursor: pointer;
+    transition: 0.3s;
+  }
+
+  button:hover {
+    background: #4500a3;
   }
 
   .btn-popup {
     background: #0073ff;
     margin-top: 10px;
+  }
+
+  .btn-popup:hover {
+    background: #005ecc;
   }
 
   textarea {
@@ -56,41 +72,61 @@
   }
 
   /* ========================= */
-  /*         POPUP MODAL       */
+  /*         MODAL POPUP       */
   /* ========================= */
   .modal {
     display: none;
     position: fixed;
     z-index: 9999;
     top: 0; left: 0;
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
     background: rgba(0,0,0,0.45);
     justify-content: center;
     align-items: center;
+    padding: 10px;
   }
 
   .modal-content {
-    width: 90%;
+    width: 100%;
     max-width: 450px;
-    background: white;
+    background: #fff;
     border-radius: 12px;
     padding: 20px;
     max-height: 80%;
     overflow-y: auto;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
 
   .modal-content h3 {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #5a00d6;
   }
 
   .karyawan-item {
-    padding: 10px;
+    padding: 10px 5px;
     border-bottom: 1px solid #eee;
   }
 
+  .karyawan-item label {
+    margin-left: 8px;
+    font-weight: normal;
+  }
+
   .modal button {
-    margin-top: 15px;
+    margin-top: 10px;
+  }
+
+  @media screen and (max-width: 480px) {
+    input, select, textarea, button {
+      font-size: 14px;
+      padding: 10px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
   }
 </style>
 </head>
@@ -115,10 +151,6 @@
   <option>Shift malam (22.00–06.00)</option>
 </select>
 
-<!-- ===================== -->
-<!--   BUTTON POPUP LIST   -->
-<!-- ===================== -->
-
 <label>Karyawan Hadir</label>
 <button class="btn-popup" onclick="openPopup('hadir')">Pilih Karyawan Hadir</button>
 
@@ -142,7 +174,6 @@
 <!-- ===================== -->
 <!--       POPUP MODAL     -->
 <!-- ===================== -->
-
 <div class="modal" id="modal">
   <div class="modal-content">
     <h3 id="modal-title">Pilih Karyawan</h3>
@@ -182,7 +213,6 @@ function openPopup(category) {
 
   karyawan.forEach(k => {
     const id = `${category}-${k.nama}`;
-
     listDiv.innerHTML += `
       <div class="karyawan-item">
         <input type="checkbox" id="${id}" value="${k.nama} (${k.area})"
@@ -195,13 +225,10 @@ function openPopup(category) {
 
 function saveSelection() {
   const checkboxes = document.querySelectorAll(`#modal-list input[type='checkbox']`);
-
   selections[activeCategory] = [];
-
   checkboxes.forEach(cb => {
     if (cb.checked) selections[activeCategory].push(cb.value);
   });
-
   closePopup();
 }
 
