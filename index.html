@@ -7,8 +7,21 @@
 
 <style>
   /* ========================= */
-  /*       RESET & BODY        */
+  /* M3 DARK PURPLE THEME   */
   /* ========================= */
+  :root {
+    --bg-color: #1c1b1f;
+    --surface-color: #2b2930;
+    --primary-color: #d0bcff;
+    --on-primary: #381e72;
+    --secondary-container: #4a4458;
+    --on-secondary-container: #e8def8;
+    --text-main: #e6e1e5;
+    --text-dim: #938f99;
+    --border-color: #49454f;
+    --whatsapp-green: #25d366;
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
@@ -16,64 +29,113 @@
   }
 
   body {
-    font-family: 'Segoe UI', sans-serif;
-    background: #f4f4f8;
-    padding: 15px;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-main);
+    padding: 20px;
     max-width: 600px;
     margin: auto;
-    color: #333;
+    line-height: 1.5;
   }
 
   h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: #5a00d6;
+    margin-bottom: 24px;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
   }
 
   label {
     display: block;
-    margin-top: 15px;
-    font-weight: 600;
+    margin-top: 18px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--primary-color);
+    margin-left: 4px;
   }
 
-  input, select, textarea, button {
+  input, select, textarea {
     width: 100%;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: var(--surface-color);
+    color: var(--text-main);
     font-size: 16px;
-    margin-top: 5px;
+    margin-top: 6px;
+    transition: border-color 0.3s;
   }
 
-  button {
-    background: #5a00d6;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: 0.3s;
+  input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
   }
 
-  button:hover {
-    background: #4500a3;
-  }
-
-  .btn-popup {
-    background: #0073ff;
+  .btn-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
     margin-top: 10px;
   }
 
-  .btn-popup:hover {
-    background: #005ecc;
+  button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 25px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 10px;
+  }
+
+  .btn-wa {
+    background: var(--whatsapp-green);
+    color: white;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-wa:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+
+  .btn-status {
+    background: var(--secondary-container);
+    color: var(--on-secondary-container);
+    margin-top: 0;
+    border: 1px solid var(--border-color);
+    text-align: left;
+    padding-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-right: 15px;
+  }
+
+  .badge-count {
+    background: var(--primary-color);
+    color: var(--on-primary);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 12px;
+    font-weight: bold;
   }
 
   textarea {
-    height: 200px;
+    height: 180px;
+    font-family: monospace;
+    font-size: 14px;
+    background: #121212;
     resize: none;
   }
 
-  /* ========================= */
-  /*         MODAL POPUP       */
-  /* ========================= */
+  /* MODAL */
   .modal {
     display: none;
     position: fixed;
@@ -81,110 +143,122 @@
     top: 0; left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0,0,0,0.8);
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 15px;
+    backdrop-filter: blur(4px);
   }
 
   .modal-content {
     width: 100%;
     max-width: 450px;
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    max-height: 80%;
+    background: var(--surface-color);
+    border-radius: 24px;
+    padding: 24px;
+    max-height: 85%;
     overflow-y: auto;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
   }
 
-  .modal-content h3 {
-    text-align: center;
-    margin-bottom: 15px;
-    color: #5a00d6;
+  #modal-list {
+    margin-bottom: 20px;
   }
 
   .karyawan-item {
-    padding: 10px 5px;
-    border-bottom: 1px solid #eee;
+    padding: 12px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .karyawan-item:hover {
+    background: rgba(255,255,255,0.05);
+  }
+
+  .karyawan-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    accent-color: var(--primary-color);
+    margin-right: 12px;
+    pointer-events: none; 
   }
 
   .karyawan-item label {
-    margin-left: 8px;
+    margin: 0;
     font-weight: normal;
+    color: var(--text-main);
+    flex: 1;
+    cursor: pointer;
   }
 
-  .modal button {
-    margin-top: 10px;
-  }
-
-  @media screen and (max-width: 480px) {
-    input, select, textarea, button {
-      font-size: 14px;
-      padding: 10px;
-    }
-
-    h2 {
-      font-size: 20px;
-    }
+  .btn-done {
+    background: var(--primary-color);
+    color: var(--on-primary);
   }
 </style>
 </head>
 <body>
 
-<h2>Laporan Kehadiran OCS NFI</h2>
+<h2>Laporan OCS NFI</h2>
 
-<label>Salam</label>
+<label>Salam Pembuka</label>
 <select id="salam">
   <option>Selamat pagi</option>
   <option>Selamat siang</option>
   <option>Selamat malam</option>
 </select>
 
-<label>Tanggal</label>
+<label>Pilih Tanggal</label>
 <input type="date" id="tanggal">
 
-<label>Shift</label>
+<label>Waktu Shift</label>
 <select id="shift">
   <option>Shift pagi (07.00–15.00)</option>
   <option>Shift siang (13.00–18.00)</option>
   <option>Shift malam (22.00–06.00)</option>
 </select>
 
-<label>Karyawan Hadir</label>
-<button class="btn-popup" onclick="openPopup('hadir')">Pilih Karyawan Hadir</button>
+<label>Data Kehadiran</label>
+<div class="btn-grid">
+    <button class="btn-status" onclick="openPopup('hadir')">📋 Hadir <span class="badge-count" id="count-hadir">0</span></button>
+    <button class="btn-status" onclick="openPopup('izin')">✉️ Izin <span class="badge-count" id="count-izin">0</span></button>
+    <button class="btn-status" onclick="openPopup('sakit')">🤒 Sakit <span class="badge-count" id="count-sakit">0</span></button>
+    <button class="btn-status" onclick="openPopup('alpa')">🚫 Alpa <span class="badge-count" id="count-alpa">0</span></button>
+    <button class="btn-status" style="grid-column: span 2" onclick="openPopup('off')">🏠 Libur / OFF <span class="badge-count" id="count-off">0</span></button>
+</div>
 
-<label>Karyawan Izin</label>
-<button class="btn-popup" onclick="openPopup('izin')">Pilih Karyawan Izin</button>
+<label>Catatan Tambahan</label>
+<input type="text" id="catatan" placeholder="Ketik catatan di sini..." autocomplete="off">
 
-<label>Karyawan Sakit</label>
-<button class="btn-popup" onclick="openPopup('sakit')">Pilih Karyawan Sakit</button>
-
-<label>Karyawan Alpa</label>
-<button class="btn-popup" onclick="openPopup('alpa')">Pilih Karyawan Alpa</button>
-
-<label>Catatan (Opsional)</label>
-<input type="text" id="catatan" placeholder="Isi catatan tambahan...">
-
-<label>Hasil</label>
+<label>Pratinjau Laporan</label>
 <textarea id="hasil" readonly></textarea>
 
-<button onclick="generate()">Salin ke Clipboard</button>
+<button class="btn-wa" onclick="sendToWhatsApp()">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793 0-.853.448-1.273.607-1.446.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.101-.177.211-.077.383.1.173.444.735.95 1.185.65.579 1.2.76 1.373.846.173.087.275.072.376-.043.101-.116.434-.506.549-.68.116-.173.231-.144.39-.087.158.058 1.011.477 1.184.564.173.087.289.129.332.202.043.073.043.423-.101.827zM12.003 2c-5.522 0-9.997 4.477-9.997 10 0 1.764.459 3.419 1.263 4.858L2 22l5.285-1.388c1.4.78 3.003 1.229 4.711 1.229 5.522 0 10-4.477 10-10 0-5.522-4.478-10-9.997-10z"/>
+  </svg>
+  Kirim ke WhatsApp
+</button>
 
-<!-- ===================== -->
-<!--       POPUP MODAL     -->
-<!-- ===================== -->
+<div id="toast" class="custom-alert">Laporan disalin!</div>
+
 <div class="modal" id="modal">
   <div class="modal-content">
-    <h3 id="modal-title">Pilih Karyawan</h3>
+    <h3 id="modal-title" style="text-align:center; color:var(--primary-color); margin-bottom:15px;">Pilih Karyawan</h3>
     <div id="modal-list"></div>
-    <button onclick="saveSelection()">Simpan</button>
-    <button style="background:#999" onclick="closePopup()">Batal</button>
+    <div style="margin-top:auto;">
+        <button class="btn-done" onclick="closePopup()">Selesai</button>
+    </div>
   </div>
 </div>
 
 <script>
-const karyawan = [
+const karyawanList = [
   { nama: "Pohara Ayub", area: "Team Leader" },
   { nama: "Sadulloh", area: "Team Leader" },
   { nama: "Saiful Bahri", area: "Office Lantai 1" },
@@ -196,88 +270,126 @@ const karyawan = [
   { nama: "Muhammad Toni", area: "Produksi" },
   { nama: "M. Rifai", area: "Produksi" },
   { nama: "Amrullah", area: "Warehouse 1 & 2" },
-  { nama: "Amrullah", area: "Warehouse 1" },
-  { nama: "Nabrih", area: "Member Pembersihan Pallet Warehouse Tepung" }
+  { nama: "Nabrih", area: "Pembersihan Pallet" }
 ];
 
 let activeCategory = "";
-const selections = { hadir: [], izin: [], sakit: [], alpa: [] };
+const selections = { hadir: [], izin: [], sakit: [], alpa: [], off: [] };
 
 function openPopup(category) {
   activeCategory = category;
-  document.getElementById("modal").style.display = "flex";
-  document.getElementById("modal-title").innerText = "Pilih Karyawan " + category.toUpperCase();
+  const modal = document.getElementById("modal");
+  const titles = { hadir: "HADIR", izin: "IZIN", sakit: "SAKIT", alpa: "ALPA", off: "OFF" };
+  document.getElementById("modal-title").innerText = "DATA " + titles[category];
+  
+  renderList();
+  modal.style.display = "flex";
+}
 
+function renderList() {
   const listDiv = document.getElementById("modal-list");
   listDiv.innerHTML = "";
-
-  karyawan.forEach(k => {
-    const id = `${category}-${k.nama}`;
-    listDiv.innerHTML += `
-      <div class="karyawan-item">
-        <input type="checkbox" id="${id}" value="${k.nama} (${k.area})"
-        ${ selections[category].includes(`${k.nama} (${k.area})`) ? "checked" : "" }>
-        <label for="${id}">${k.nama} (${k.area})</label>
-      </div>
+  
+  karyawanList.forEach((k, index) => {
+    const val = `${k.nama} (${k.area})`;
+    const isChecked = selections[activeCategory].includes(val);
+    
+    const item = document.createElement("div");
+    item.className = "karyawan-item";
+    item.innerHTML = `
+      <input type="checkbox" id="cb-${index}" ${isChecked ? "checked" : ""}>
+      <label>${k.nama} <br><small style="color:var(--text-dim)">${k.area}</small></label>
     `;
+    
+    item.onclick = () => {
+        const checkbox = item.querySelector('input');
+        checkbox.checked = !checkbox.checked;
+        handleCheckChange(val, checkbox.checked);
+    };
+    
+    listDiv.appendChild(item);
   });
 }
 
-function saveSelection() {
-  const checkboxes = document.querySelectorAll(`#modal-list input[type='checkbox']`);
-  selections[activeCategory] = [];
-  checkboxes.forEach(cb => {
-    if (cb.checked) selections[activeCategory].push(cb.value);
-  });
-  closePopup();
+function handleCheckChange(value, isChecked) {
+    if (isChecked) {
+        if (!selections[activeCategory].includes(value)) {
+            selections[activeCategory].push(value);
+        }
+    } else {
+        selections[activeCategory] = selections[activeCategory].filter(v => v !== value);
+    }
+    updateBadgeCounts();
+    updatePreview();
 }
 
-function closePopup() {
-  document.getElementById("modal").style.display = "none";
+function updateBadgeCounts() {
+    for (const cat in selections) {
+        document.getElementById(`count-${cat}`).innerText = selections[cat].length;
+    }
+}
+
+function closePopup() { 
+    document.getElementById("modal").style.display = "none"; 
 }
 
 function formatTanggal(dateStr) {
+  const d = new Date(dateStr);
+  if(isNaN(d.getTime())) return "-";
   const hari = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
   const bulan = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
-  const d = new Date(dateStr);
   return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
 }
 
 function formatList(arr) {
-  return arr.length ? "\n- " + arr.join("\n- ") : "-";
+  return arr.length ? "\n- " + arr.join("\n- ") : " -";
 }
 
-function generate() {
-  const salam = document.getElementById("salam").value;
-  const tanggal = document.getElementById("tanggal").value;
-  if (!tanggal) return alert("Pilih tanggal terlebih dahulu!");
+function updatePreview() {
+    const salam = document.getElementById("salam").value;
+    const tanggal = document.getElementById("tanggal").value;
+    const shift = document.getElementById("shift").value;
+    const catatan = document.getElementById("catatan").value;
 
-  const hasil = `
-${salam}
+    const hasil = `${salam},
 
-📋 Laporan Kehadiran Member OCS NFI
-📅 Hari/Tanggal: ${formatTanggal(tanggal)}
-🕒 Shift: ${document.getElementById("shift").value}
+📋 LAPORAN KEHADIRAN MEMBER OCS NFI
+----------------------------------
+📅 Tanggal : ${formatTanggal(tanggal)}
+🕒 Shift   : ${shift}
 
-✅ Hadir (${selections.hadir.length}):${formatList(selections.hadir)}
-📝 Izin:${formatList(selections.izin)}
-🤒 Sakit:${formatList(selections.sakit)}
-❌ Alpa:${formatList(selections.alpa)}
+✅ HADIR (${selections.hadir.length}):${formatList(selections.hadir)}
 
-${document.getElementById("catatan").value ? "✍️ Catatan: " + document.getElementById("catatan").value : ""}
-    
-Demikian, Terima kasih 🙏`;
+✉️ IZIN   :${formatList(selections.izin)}
+🤒 SAKIT  :${formatList(selections.sakit)}
+🚫 ALPA   :${formatList(selections.alpa)}
+🏠 OFF    :${formatList(selections.off)}
 
-  document.getElementById("hasil").value = hasil;
-  navigator.clipboard.writeText(hasil);
-  alert("Berhasil disalin ke clipboard!");
+${catatan.trim() ? "📝 CATATAN: " + catatan + "\n" : ""}
+Demikian laporan ini disampaikan. Terima kasih.`;
+
+    document.getElementById("hasil").value = hasil;
+}
+
+function sendToWhatsApp() {
+    const text = document.getElementById("hasil").value;
+    const url = "https://api.whatsapp.com/send?text=" + encodeURIComponent(text);
+    window.open(url, "_blank");
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const today = new Date().toISOString().split("T")[0];
-  document.getElementById("tanggal").value = today;
+  const tglInput = document.getElementById("tanggal");
+  tglInput.value = new Date().toISOString().split("T")[0];
+  
+  const ids = ["salam", "tanggal", "shift", "catatan"];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener("input", updatePreview);
+  });
+  
+  updatePreview();
 });
 </script>
-
 </body>
 </html>
+
