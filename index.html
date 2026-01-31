@@ -2,258 +2,346 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Laporan Kehadiran - OCS NFI</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>OCS NFI Laporan Kehadiran Teks Generator</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 
 <style>
   /* ========================= */
-  /* M3 DARK PURPLE THEME   */
+  /* M3 BLUE TONAL THEME       */
   /* ========================= */
   :root {
-    --bg-color: #1c1b1f;
-    --surface-color: #2b2930;
-    --primary-color: #d0bcff;
-    --on-primary: #381e72;
-    --secondary-container: #4a4458;
-    --on-secondary-container: #e8def8;
-    --text-main: #e6e1e5;
-    --text-dim: #938f99;
-    --border-color: #49454f;
+    --bg-color: #f7f9ff; 
+    --surface-variant: #e0e7f5;
+    --primary-color: #005691; /* Deep Oceanic Blue */
+    --on-primary: #ffffff;
+    --primary-container: #d1e4ff;
+    --on-primary-container: #001d36;
+    --secondary-container: #dae2f9;
+    --on-secondary-container: #131c2b;
+    --text-main: #191c20;
+    --text-dim: #44474e;
+    --outline: #74777f;
     --whatsapp-green: #25d366;
+    --error: #ba1a1a;
   }
 
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Google Sans', 'Roboto', 'Segoe UI', system-ui, sans-serif;
     background: var(--bg-color);
     color: var(--text-main);
-    padding: 20px;
-    max-width: 600px;
+    padding: 16px;
+    max-width: 500px;
     margin: auto;
-    line-height: 1.5;
+    line-height: 1.6;
+  }
+
+  header {
+    margin-bottom: 24px;
+    text-align: center;
+    padding-top: 10px;
   }
 
   h2 {
-    text-align: center;
-    margin-bottom: 24px;
+    font-size: 22px;
+    font-weight: 600;
     color: var(--primary-color);
-    letter-spacing: 0.5px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+
+  p.subtitle {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-dim);
+    margin-top: 6px;
+    font-style: italic;
+  }
+
+  .m3-card {
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 1px solid #dee3eb;
+    box-shadow: 0 4px 12px rgba(0, 86, 145, 0.04);
+  }
+
+  .input-group {
+    margin-bottom: 16px;
   }
 
   label {
     display: block;
-    margin-top: 18px;
-    font-size: 14px;
-    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--primary-color);
     margin-left: 4px;
   }
 
-  input, select, textarea {
+  input, select {
     width: 100%;
-    padding: 14px;
-    border-radius: 12px;
-    border: 1px solid var(--border-color);
-    background: var(--surface-color);
+    padding: 14px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--outline);
+    background: #ffffff;
     color: var(--text-main);
-    font-size: 16px;
-    margin-top: 6px;
-    transition: border-color 0.3s;
-  }
-
-  input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
-  }
-
-  .btn-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-top: 10px;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-    border-radius: 25px;
-    border: none;
     font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: 10px;
+    transition: all 0.2s ease;
   }
 
-  .btn-wa {
-    background: var(--whatsapp-green);
-    color: white;
-    margin-top: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  input:focus, select:focus {
+    outline: none;
+    border: 2px solid var(--primary-color);
+    padding: 13px 15px;
+  }
+
+  /* Status Button Grid */
+  .status-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 10px;
-  }
-
-  .btn-wa:active {
-    transform: scale(0.98);
-    opacity: 0.9;
+    margin-bottom: 16px;
   }
 
   .btn-status {
     background: var(--secondary-container);
-    color: var(--on-secondary-container);
-    margin-top: 0;
-    border: 1px solid var(--border-color);
-    text-align: left;
-    padding-left: 20px;
+    border: none;
+    padding: 14px;
+    border-radius: 18px;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    padding-right: 15px;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--on-secondary-container);
+    font-weight: 500;
   }
 
-  .badge-count {
+  .btn-status:active {
+    transform: scale(0.96);
+    filter: brightness(0.9);
+  }
+
+  .btn-status.full {
+    grid-column: span 2;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 14px 20px;
+  }
+
+  .badge {
     background: var(--primary-color);
-    color: var(--on-primary);
-    padding: 2px 8px;
+    color: white;
+    padding: 2px 12px;
     border-radius: 10px;
     font-size: 12px;
     font-weight: bold;
   }
 
   textarea {
-    height: 180px;
-    font-family: monospace;
-    font-size: 14px;
-    background: #121212;
+    width: 100%;
+    height: 160px;
+    padding: 16px;
+    border-radius: 18px;
+    border: none;
+    background: var(--surface-variant);
+    font-family: 'Menlo', 'Monaco', monospace;
+    font-size: 13px;
+    line-height: 1.5;
     resize: none;
+    color: #2c313a;
+    margin-top: 10px;
+  }
+
+  .btn-main {
+    width: 100%;
+    padding: 16px;
+    border-radius: 100px;
+    border: none;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: var(--on-primary);
+    box-shadow: 0 8px 16px rgba(0, 86, 145, 0.2);
+    margin-top: 12px;
+  }
+
+  .btn-wa {
+    background: var(--whatsapp-green);
+    color: white;
+    box-shadow: 0 8px 16px rgba(37, 211, 102, 0.15);
+    margin-top: 12px;
   }
 
   /* MODAL */
   .modal {
     display: none;
     position: fixed;
-    z-index: 9999;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.8);
+    inset: 0;
+    background: rgba(19, 28, 43, 0.5);
+    z-index: 1000;
     justify-content: center;
-    align-items: center;
-    padding: 15px;
-    backdrop-filter: blur(4px);
+    align-items: flex-end;
   }
 
   .modal-content {
+    background: #ffffff;
     width: 100%;
-    max-width: 450px;
-    background: var(--surface-color);
-    border-radius: 24px;
+    max-width: 500px;
+    border-radius: 32px 32px 0 0;
     padding: 24px;
-    max-height: 85%;
+    max-height: 80vh;
     overflow-y: auto;
-    border: 1px solid var(--border-color);
-    display: flex;
-    flex-direction: column;
+    animation: slideUp 0.35s cubic-bezier(0.33, 1, 0.68, 1);
+    position: relative;
   }
 
-  #modal-list {
-    margin-bottom: 20px;
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
   }
 
-  .karyawan-item {
-    padding: 12px;
-    border-bottom: 1px solid var(--border-color);
+  .list-item {
     display: flex;
     align-items: center;
+    padding: 12px 16px;
+    border-radius: 16px;
+    margin-bottom: 6px;
     cursor: pointer;
-    user-select: none;
+    background: #f1f4f9;
   }
 
-  .karyawan-item:hover {
-    background: rgba(255,255,255,0.05);
+  .list-item:active {
+    background: var(--primary-container);
   }
 
-  .karyawan-item input[type="checkbox"] {
+  .list-item input {
     width: 22px;
     height: 22px;
+    margin-right: 16px;
     accent-color: var(--primary-color);
-    margin-right: 12px;
-    pointer-events: none; 
+    pointer-events: none;
   }
 
-  .karyawan-item label {
-    margin: 0;
-    font-weight: normal;
-    color: var(--text-main);
-    flex: 1;
-    cursor: pointer;
+  .list-item .info .name {
+    font-weight: 600;
+    display: block;
+    color: var(--on-primary-container);
   }
 
-  .btn-done {
-    background: var(--primary-color);
-    color: var(--on-primary);
+  .list-item .info .area {
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .section-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--primary-color);
+    margin: 24px 0 10px 6px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
   }
 </style>
 </head>
 <body>
 
-<h2>Laporan OCS NFI</h2>
+<header>
+  <h2>OCS NFI Laporan Kehadiran Teks Generator</h2>
+  <p class="subtitle">By Pohara Ayub</p>
+</header>
 
-<label>Salam Pembuka</label>
-<select id="salam">
-  <option>Selamat pagi</option>
-  <option>Selamat siang</option>
-  <option>Selamat malam</option>
-</select>
+<div class="m3-card">
+  <div class="input-group">
+    <label>Salam Pembuka</label>
+    <select id="salam">
+      <option>Selamat pagi</option>
+      <option>Selamat siang</option>
+      <option>Selamat malam</option>
+    </select>
+  </div>
 
-<label>Pilih Tanggal</label>
-<input type="date" id="tanggal">
+  <div class="input-group">
+    <label>Pilih Tanggal</label>
+    <input type="date" id="tanggal">
+  </div>
 
-<label>Waktu Shift</label>
-<select id="shift">
-  <option>Shift pagi (07.00–15.00)</option>
-  <option>Shift siang (13.00–18.00)</option>
-  <option>Shift malam (22.00–06.00)</option>
-</select>
-
-<label>Data Kehadiran</label>
-<div class="btn-grid">
-    <button class="btn-status" onclick="openPopup('hadir')">📋 Hadir <span class="badge-count" id="count-hadir">0</span></button>
-    <button class="btn-status" onclick="openPopup('izin')">✉️ Izin <span class="badge-count" id="count-izin">0</span></button>
-    <button class="btn-status" onclick="openPopup('sakit')">🤒 Sakit <span class="badge-count" id="count-sakit">0</span></button>
-    <button class="btn-status" onclick="openPopup('alpa')">🚫 Alpa <span class="badge-count" id="count-alpa">0</span></button>
-    <button class="btn-status" style="grid-column: span 2" onclick="openPopup('off')">🏠 Libur / OFF <span class="badge-count" id="count-off">0</span></button>
+  <div class="input-group" style="margin-bottom: 0;">
+    <label>Waktu Shift</label>
+    <select id="shift">
+      <option>Shift pagi (07.00–15.00)</option>
+      <option>Shift siang (13.00–18.00)</option>
+      <option>Shift malam (22.00–06.00)</option>
+    </select>
+  </div>
 </div>
 
-<label>Catatan Tambahan</label>
-<input type="text" id="catatan" placeholder="Ketik catatan di sini..." autocomplete="off">
+<div class="section-title">Status Kehadiran</div>
+<div class="status-grid">
+    <button class="btn-status" onclick="openPopup('hadir')">
+      <span>✅ Hadir</span>
+      <span class="badge" id="count-hadir">0</span>
+    </button>
+    <button class="btn-status" onclick="openPopup('izin')">
+      <span>✉️ Izin</span>
+      <span class="badge" id="count-izin">0</span>
+    </button>
+    <button class="btn-status" onclick="openPopup('sakit')">
+      <span>🤒 Sakit</span>
+      <span class="badge" id="count-sakit">0</span>
+    </button>
+    <button class="btn-status" onclick="openPopup('alpa')">
+      <span>🚫 Alpa</span>
+      <span class="badge" id="count-alpa">0</span>
+    </button>
+    <button class="btn-status full" onclick="openPopup('off')">
+      <span>🏠 Libur / OFF</span>
+      <span class="badge" id="count-off">0</span>
+    </button>
+</div>
 
-<label>Pratinjau Laporan</label>
-<textarea id="hasil" readonly></textarea>
+<div class="m3-card">
+  <label>Catatan Tambahan</label>
+  <input type="text" id="catatan" placeholder="Ketik keterangan tambahan..." autocomplete="off">
+</div>
 
-<button class="btn-wa" onclick="sendToWhatsApp()">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793 0-.853.448-1.273.607-1.446.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.101-.177.211-.077.383.1.173.444.735.95 1.185.65.579 1.2.76 1.373.846.173.087.275.072.376-.043.101-.116.434-.506.549-.68.116-.173.231-.144.39-.087.158.058 1.011.477 1.184.564.173.087.289.129.332.202.043.073.043.423-.101.827zM12.003 2c-5.522 0-9.997 4.477-9.997 10 0 1.764.459 3.419 1.263 4.858L2 22l5.285-1.388c1.4.78 3.003 1.229 4.711 1.229 5.522 0 10-4.477 10-10 0-5.522-4.478-10-9.997-10z"/>
-  </svg>
-  Kirim ke WhatsApp
-</button>
+<div class="section-title">Hasil Laporan</div>
+<div class="m3-card" style="padding: 14px;">
+  <textarea id="hasil" readonly></textarea>
+  
+  <button class="btn-main btn-wa" onclick="sendToWhatsApp()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793 0-.853.448-1.273.607-1.446.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.101-.177.211-.077.383.1.173.444.735.95 1.185.65.579 1.2.76 1.373.846.173.087.275.072.376-.043.101-.116.434-.506.549-.68.116-.173.231-.144.39-.087.158.058 1.011.477 1.184.564.173.087.289.129.332.202.043.073.043.423-.101.827zM12.003 2c-5.522 0-9.997 4.477-9.997 10 0 1.764.459 3.419 1.263 4.858L2 22l5.285-1.388c1.4.78 3.003 1.229 4.711 1.229 5.522 0 10-4.477 10-10 0-5.522-4.478-10-9.997-10z"/>
+    </svg>
+    Kirim ke WhatsApp
+  </button>
+</div>
 
-<div id="toast" class="custom-alert">Laporan disalin!</div>
-
+<!-- Modal -->
 <div class="modal" id="modal">
-  <div class="modal-content">
-    <h3 id="modal-title" style="text-align:center; color:var(--primary-color); margin-bottom:15px;">Pilih Karyawan</h3>
-    <div id="modal-list"></div>
-    <div style="margin-top:auto;">
-        <button class="btn-done" onclick="closePopup()">Selesai</button>
-    </div>
+  <div class="modal-content" id="modal-container">
+    <div style="width: 36px; height: 4px; background: #c4c7cf; border-radius: 2px; margin: 0 auto 20px;"></div>
+    <h3 id="modal-title" style="text-align:center; color:var(--primary-color); margin-bottom:20px; font-weight: 600;">Data Karyawan</h3>
+    <div id="modal-list" style="margin-bottom: 24px;"></div>
+    <button class="btn-main btn-primary" id="btn-done">Selesai</button>
   </div>
 </div>
 
@@ -279,8 +367,8 @@ const selections = { hadir: [], izin: [], sakit: [], alpa: [], off: [] };
 function openPopup(category) {
   activeCategory = category;
   const modal = document.getElementById("modal");
-  const titles = { hadir: "HADIR", izin: "IZIN", sakit: "SAKIT", alpa: "ALPA", off: "OFF" };
-  document.getElementById("modal-title").innerText = "DATA " + titles[category];
+  const titles = { hadir: "HADIR", izin: "IZIN", sakit: "SAKIT", alpa: "ALPA", off: "LIBUR / OFF" };
+  document.getElementById("modal-title").innerText = "STATUS: " + titles[category];
   
   renderList();
   modal.style.display = "flex";
@@ -295,13 +383,16 @@ function renderList() {
     const isChecked = selections[activeCategory].includes(val);
     
     const item = document.createElement("div");
-    item.className = "karyawan-item";
+    item.className = "list-item";
     item.innerHTML = `
       <input type="checkbox" id="cb-${index}" ${isChecked ? "checked" : ""}>
-      <label>${k.nama} <br><small style="color:var(--text-dim)">${k.area}</small></label>
+      <div class="info">
+        <span class="name">${k.nama}</span>
+        <span class="area">${k.area}</span>
+      </div>
     `;
     
-    item.onclick = () => {
+    item.onclick = (e) => {
         const checkbox = item.querySelector('input');
         checkbox.checked = !checkbox.checked;
         handleCheckChange(val, checkbox.checked);
@@ -325,7 +416,8 @@ function handleCheckChange(value, isChecked) {
 
 function updateBadgeCounts() {
     for (const cat in selections) {
-        document.getElementById(`count-${cat}`).innerText = selections[cat].length;
+        const badge = document.getElementById(`count-${cat}`);
+        if(badge) badge.innerText = selections[cat].length;
     }
 }
 
@@ -366,7 +458,7 @@ function updatePreview() {
 🏠 OFF    :${formatList(selections.off)}
 
 ${catatan.trim() ? "📝 CATATAN: " + catatan + "\n" : ""}
-Demikian laporan ini disampaikan. Terima kasih.`;
+Demikian terimakasih 🙏`;
 
     document.getElementById("hasil").value = hasil;
 }
@@ -378,15 +470,20 @@ function sendToWhatsApp() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  const tglInput = document.getElementById("tanggal");
-  tglInput.value = new Date().toISOString().split("T")[0];
-  
+  document.getElementById("tanggal").value = new Date().toISOString().split("T")[0];
   const ids = ["salam", "tanggal", "shift", "catatan"];
-  ids.forEach(id => {
-    const el = document.getElementById(id);
-    el.addEventListener("input", updatePreview);
+  ids.forEach(id => document.getElementById(id).addEventListener("input", updatePreview));
+
+  document.getElementById("btn-done").addEventListener("click", (e) => {
+    e.stopPropagation();
+    closePopup();
   });
-  
+
+  const modal = document.getElementById("modal");
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closePopup();
+  });
+
   updatePreview();
 });
 </script>
